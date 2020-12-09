@@ -66,11 +66,11 @@ def Symbol_Jacobi():
     a = int(input("Введите число а, а - целое число 0 <= a < n: "))
     
     nod = EuclidAlgorithm(n, a)
-    g = 1
-    
     if nod != 1:
         print('0')
         return 0
+    
+    g = 1
     
     if a < 0:
         a = -a
@@ -84,7 +84,7 @@ def Symbol_Jacobi():
         if t % 2 != 0:
             if n % 8 == 3 or n % 8 == 5:
                 g = -g
-        if a % 4 == n and n % 4 == 3:
+        if a % 4 == 3 and n % 4 == 3:
             g = -g
         c = a
         a = n % c
