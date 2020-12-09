@@ -1,11 +1,11 @@
 
-"""
-def EuclidAlgorithm():
 
-    #Алгоритм нахождения НОД двух чисел
+def EuclidAlgorithm(x, y):
 
-    x = int(input("Введите число x: "))
-    y = int(input("Введите число y: "))
+    """Алгоритм нахождения НОД двух чисел"""
+
+    #x = int(input("Введите число x: "))
+    #y = int(input("Введите число y: "))
 
     a1 = 0
     a2 = 1
@@ -26,15 +26,15 @@ def EuclidAlgorithm():
             b2 = b1
             b1 = b
         
-        d = x
+        #d = x
         a = a2
         b = b2
-        print("НОД:", d)
-        print("Число а: ", a)
-        print("Число b: ", b)
+        #print("НОД:", d)
+        #print("Число а: ", a)
+        #print("Число b: ", b)
     else:
         print("Ошибка: x < y")    
-"""
+    return x
 
 #def FastExponentiation_A():
 #    #Алгоритм быстрого возведения в степень
@@ -62,17 +62,38 @@ def EuclidAlgorithm():
 #    print(x)        
 
 def Symbol_Jacobi():
-    n = int(input("Введите число n, - нечетное целое число n>=3: "))
+    n = int(input("Введите число n, - нечетное целое число n >= 3: "))
     a = int(input("Введите число а, а - целое число 0 <= a < n: "))
     
+    nod = EuclidAlgorithm(n, a)
     g = 1
-    if a == 0:
-        print("r = 0")
-    elif a == 1:
-        print("r = ", g)
-     
     
+    if nod != 1:
+        print('0')
+        return 0
+    
+    if a < 0:
+        a = -a
+        if n % 4 == 3:
+            g = -g
     while a != 0:
+        t = 0
+        while a % 2 == 0:
+            t = t + 1
+            a = a / 2
+        if t % 2 != 0:
+            if n % 8 == 3 or n % 8 == 5:
+                g = -g
+        if a % 4 == n and n % 4 == 3:
+            g = -g
+        c = a
+        a = n % c
+        n = c
+        
+    print('res', g)
+
+        
+
 
 #def test_Ferma():
 #    n = int(input("Введите нечетное число, которое больше или равно 5: \n"))
@@ -93,7 +114,7 @@ def Symbol_Jacobi():
     
 
 if __name__ == "__main__":
-    test_Ferma()
+    Symbol_Jacobi()
     
 
 
