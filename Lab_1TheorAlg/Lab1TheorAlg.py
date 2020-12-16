@@ -1,4 +1,6 @@
-
+import random
+from decimal import Decimal
+import math
 
 def EuclidAlgorithm(x, y):
 
@@ -61,9 +63,9 @@ def EuclidAlgorithm(x, y):
 #        n >>= 1
 #    print(x)        
 
-def Symbol_Jacobi():
-    n = int(input("Введите число n, - нечетное целое число n >= 3: "))
-    a = int(input("Введите число а, а - целое число 0 <= a < n: "))
+def Symbol_Jacobi(a, n):
+    #n = int(input("Введите число n, - нечетное целое число n >= 3: "))
+    #a = int(input("Введите число а, а - целое число 0 <= a < n: "))
     
     nod = EuclidAlgorithm(n, a)
     if nod != 1:
@@ -90,7 +92,8 @@ def Symbol_Jacobi():
         a = n % c
         n = c
         
-    print('res', g)
+    #print('res', g)
+    return g
 
         
 
@@ -103,6 +106,8 @@ def Symbol_Jacobi():
 #    if a > (n-2) or a < 2:
 #        raise ValueError('a должно быть 2 <= a <= (n - 2)')
 #
+#    #a = random.randint(2, n - 2)
+#
 #    if n % 2 == 0:
 #        print("Число n должно быть нечетным!!!")
 #    else:
@@ -113,8 +118,32 @@ def Symbol_Jacobi():
 #            print('Число составное:', n)
     
 
+def test_S_SHT():
+    n = int(input("Введите нечетное число, которое больше или равно 5: \n"))
+    if n < 5:
+        raise ValueError('n должно быть >= 5')
+    a = (random.randint(2, n - 2))
+    #a = int(input('Ведите a'))
+    #r = pow(a, (n - 1) / 2) % n
+    r = ((a ** ((n-1)/2)) % n)
+    
+    if r != 1 and r != n - 1:
+        print('Число', n, 'составное')
+        return 0
+    
+    s = Symbol_Jacobi(a, n)
+    #if (r % n) == (s % n):
+    if r % n == s:
+        print('Число', n, 'вероятно, простое')
+        return 0
+    else:
+        print('Число', n, 'составное')
+        return 0
+
+    
+
 if __name__ == "__main__":
-    Symbol_Jacobi()
+    test_S_SHT()
     
 
 
