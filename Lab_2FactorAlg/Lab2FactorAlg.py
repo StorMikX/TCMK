@@ -1,6 +1,5 @@
 import random
 import math
-from decimal import Decimal, getcontext
 
 
 def func(x, n):
@@ -45,7 +44,6 @@ def ro_pollard():
 
 
 def ro_1_pollard():
-    getcontext().prec = 2
     n = int(input('Введите число n: \n'))
 
     basefact = []
@@ -67,7 +65,7 @@ def ro_1_pollard():
             for simple in basefact:
                 n_log = math.log(n)
                 p_log = math.log(simple)
-                l = int(n_log / p_log)
+                l = int(n_log // p_log)
 
                 a1 = pow(simple, l)
                 a = pow(a, a1) % n
