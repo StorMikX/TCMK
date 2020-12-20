@@ -16,21 +16,17 @@ def nod_euclid(x, y):
 
 def ro_pollard():
     n = int(input('Введите число n: \n'))
-    c = random.randint(1, 1000)
+    c = random.randint(1, n)
     #print(c)
     a = c
     b = c
     flag = True
     while flag:
         a = func(a, n)
-        #print (a)
         b = func(b, n)
-        #print(b)
         b = func(b, n)
-        #print (b)
         z = a - b
         d = nod_euclid(z, n)
-        #print(d)
         if d == n:
             print("Делитель не найден")
             flag = False
@@ -40,6 +36,7 @@ def ro_pollard():
             p = d
             print("Нетривиальный делитель:", p)
             flag = False
+            return p
 
 
 
@@ -54,32 +51,49 @@ def ro_1_pollard():
     #[int(x) for x in line.split('\t')
 
     a = random.randint(2, n-2)
-    flag = True
-    while flag:
-        d = nod_euclid(a, n)
-        if d >= 2:
-            p = d
-            print('Нетривиальный делитель:', p)
-            flag = False
-        else:
-            for simple in basefact:
-                n_log = math.log(n)
-                p_log = math.log(simple)
-                l = int(n_log // p_log)
-
-                a1 = pow(simple, l)
-                a = pow(a, a1) % n
-            z = a - 1    
-            d = nod_euclid(z, n)
-            if d == 1 or d == n:
-                print('Делитель не найден')
-                flag = False
-            else:
-                p = d
-                print('Нетривиальный делитель:', p)
-                break
-                    #print(l)
+    #flag = True
+    #while flag:
+    d = nod_euclid(a, n)
+    if d >= 2:
+        p = d
+        print('Нетривиальный делитель:', p)
+        #flag = False
+        return p
+    #else:
+    for simple in basefact:
+        n_log = math.log(n)
+        p_log = math.log(simple)
+        l = int(n_log / p_log)
+        a1 = pow(simple, l)
+        a = pow(a, a1) % n
+        #a = (a ** (simple ** l)) % n
+    z = a - 1    
+    d = nod_euclid(z, n)
+    if d == 1 or d == n:
+        print('Делитель не найден')
+        #flag = False
+    else:
+        p = d
+        print('Нетривиальный делитель:', p)
+        return p
+            #break
+                #print(l)
            
 if __name__ == "__main__":
-    ro_1_pollard()
+    print(
+        '\tMenu\n1) ρ-метод Полларда\n2) (ρ-1)-метод Полларда\n3) Выход')
+    choice = int(input('Введите номер метода: '))
+    while True:
+        if choice == 1:
+            ro_pollard()
+        if choice == 2:
+            ro_1_pollard()
+        if choice == 3:
+            quit()
+        else:
+            break
+
+
+   
+
     
