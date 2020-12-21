@@ -47,37 +47,29 @@ def ro_1_pollard():
     with open('BaseFactr.txt', 'r') as Base:
         for line in Base:
             basefact.append(int(line.strip('\n')))
-    #print(basefact)
-    #[int(x) for x in line.split('\t')
-
+ 
     a = random.randint(2, n-2)
-    #flag = True
-    #while flag:
     d = nod_euclid(a, n)
     if d >= 2:
         p = d
         print('Нетривиальный делитель:', p)
-        #flag = False
         return p
-    #else:
-    for simple in basefact:
-        n_log = math.log(n)
-        p_log = math.log(simple)
+    n_log = math.log(n)
+    for i in range (1, len(basefact)):
+        
+        p_log = math.log(basefact[i])
         l = int(n_log / p_log)
-        a1 = pow(simple, l)
+        a1 = pow(basefact[i], l)
         a = pow(a, a1) % n
-        #a = (a ** (simple ** l)) % n
     z = a - 1    
     d = nod_euclid(z, n)
     if d == 1 or d == n:
         print('Делитель не найден')
-        #flag = False
     else:
         p = d
         print('Нетривиальный делитель:', p)
         return p
-            #break
-                #print(l)
+        
            
 if __name__ == "__main__":
     print(
