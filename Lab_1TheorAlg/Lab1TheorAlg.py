@@ -141,10 +141,10 @@ def test_S_SHT():
         return 0
 
     
-def test_M_R():
-    n = int(input('Введите нечетное число, которое больше или равно 5: \n'))
-    if n < 5 or n % 2 == 0:
-        raise ValueError('Неправильное число')
+def test_M_R(n):
+    #n = int(input('Введите нечетное число, которое больше или равно 5: \n'))
+    #if n < 5 or n % 2 == 0:
+    #    raise ValueError('Неправильное число')
     
     l = n - 1
     r = 1
@@ -173,13 +173,47 @@ def test_M_R():
     return 1  
 
 
-def simple_gen_k():
-    pass
-             
+def bin_to_dec(data):
+    number = 0
+    len_dat = len(data)
+    for i in range(0, len_dat):
+        number += int(data[i]) * (2**(len_dat - i - 1))
+    return number
 
 
+def simple_gen_k(k, t):
+    while True:
+        j = k - 1
+        mass_p = []
+        mass_p.append(1)
+        while j > 1:
+            b = random.randint(0, 1)
+            mass_p.append(b)
+            j = j - 1
+        mass_p.append(1)
+        print(mass_p)
+        string = ''
+        for i in range(0, len(mass_p)):
+            string = string + str(mass_p[i])
+        p = bin_to_dec(string)
+        i = 1
+        x = 0
+        while i < t:
+            if int(p) % 2 == 0:
+                break
+            x = test_M_R(int(p))
+            if x == 1:
+                i = i + 1
+            elif x == 0:
+                break
+        if i == t:
+            print(p)
+            return p
+
+        
 if __name__ == "__main__":
-    test_M_R()
+    #test_M_R()
+    simple_gen_k(10, 100)
     #test_S_SHT()
     
 
