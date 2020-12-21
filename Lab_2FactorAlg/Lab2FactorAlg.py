@@ -56,7 +56,6 @@ def ro_1_pollard():
         return p
     n_log = math.log(n)
     for i in range (1, len(basefact)):
-        
         p_log = math.log(basefact[i])
         l = int(n_log / p_log)
         a1 = pow(basefact[i], l)
