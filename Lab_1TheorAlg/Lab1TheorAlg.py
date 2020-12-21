@@ -125,7 +125,7 @@ def test_S_SHT():
     a = (random.randint(2, n - 2))
     #a = int(input('Ведите a'))
     #r = pow(a, (n - 1) / 2) % n
-    r = ((a ** ((n-1)/2)) % n)
+    r = ((a ** ((n-1)//2)) % n)
     
     if r != 1 and r != n - 1:
         print('Число', n, 'составное')
@@ -141,9 +141,46 @@ def test_S_SHT():
         return 0
 
     
+def test_M_R():
+    n = int(input('Введите нечетное число, которое больше или равно 5: \n'))
+    if n < 5 or n % 2 == 0:
+        raise ValueError('Неправильное число')
+    
+    l = n - 1
+    r = 1
+    s = 0
+    while l != 1:
+        if l % 2 == 0:
+            l = l // 2
+            s = s + 1
+        else:
+            r = l
+            break
+    a = random.randint(2, n-2)
+    y = (pow(a, r)) % n
+    if y != 1 and y != n-1:
+        j = 1
+        if j <= s - 1 and y != n-1:
+            y = (y * y) % n
+            if y == 1:
+                print('Число', n,'составное')
+                return 0
+            j = j + 1
+        if y != n - 1:
+            print('Число', n,'составное')
+            return 0
+    print('Число', n, 'вероятно простое')
+    return 1  
+
+
+def simple_gen_k():
+    pass
+             
+
 
 if __name__ == "__main__":
-    test_S_SHT()
+    test_M_R()
+    #test_S_SHT()
     
 
 
