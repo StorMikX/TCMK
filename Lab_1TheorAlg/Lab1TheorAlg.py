@@ -261,7 +261,6 @@ def srav_2(p, a, N):
     r2 = Symbol_Jacobi(N, p)
     if r1 != 1 and r2 != -1:
         raise ValueError('Символ Якоби должен быть = 1')
-    
     h = 1
     k = 0
     l = p - 1
@@ -273,7 +272,6 @@ def srav_2(p, a, N):
             h = l
     else:
         h = l
-
     a1 = pow(a, ((h + 1) / 2))
     a1 = a1 % p
     a2 = pow(a, -1)
