@@ -1,8 +1,7 @@
 import random
-from decimal import Decimal
 import math
 
-def EuclidAlgorithm(x, y):
+def EuclidAlgorithm(y, x):
 
     """Алгоритм нахождения НОД двух чисел"""
 
@@ -20,14 +19,13 @@ def EuclidAlgorithm(x, y):
             r = x - q * y
             a = a2 - q * a1
             b = b2 - q * b1
-
             x = y
             y = r
             a2 = a1
             a1 = a
             b2 = b1
             b1 = b
-        
+
         #d = x
         a = a2
         b = b2
@@ -35,7 +33,8 @@ def EuclidAlgorithm(x, y):
         #print("Число а: ", a)
         #print("Число b: ", b)
     else:
-        print("Ошибка: x < y")    
+        print("Ошибка: x < y")  
+        return 0
     return x
 
 #def FastExponentiation_A():
@@ -210,12 +209,58 @@ def simple_gen_k(k, t):
             print(p)
             return p
 
-        
+
+def Big_Evklid(a, m):
+    a2 = 1
+    a1 = 0
+    b2 = 0
+    b1 = 1
+    while m != 0:
+        q=int(a / m)
+        r=a - q * m
+        a=a2 - q * a1
+        b=b2 - q * b1
+        a = m
+        m = r
+        a2 = a1
+        a1 = a
+        b2 = b1
+        b1 = b
+    a_0=a2
+    b=b2
+    return a_0
+
+
+def ReshSrPerStep(a, b, m):
+    print('Cравнение вида ax = b mod m\n')
+    a = int(input('a: '))
+    b = int(input('b: '))
+    m = int(input('m: '))
+    d = math.gcd(a, m)
+    l = m
+    if d > 1 and b%d != 0:
+        print('Решений нет')
+    else:
+        while b%d == 0:
+            if d != 1:
+                a = int(a / d)
+                b = int(b / d)
+                m = int(m / d)
+                d = math.gcd(a, m)
+            else:
+                N = []
+                for r in range(l):
+                    if (a*r - b)%m == 0:
+                        N.append(r)
+                print('Решения:', N)
+                break
+
+
 if __name__ == "__main__":
     #test_M_R()
-    simple_gen_k(10, 100)
+    #simple_gen_k(10, 100)
     #test_S_SHT()
-    
+    pass
 
 
     
