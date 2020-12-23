@@ -66,7 +66,7 @@ def Symbol_Jacobi(a, n):
     #n = int(input("Введите число n, - нечетное целое число n >= 3: "))
     #a = int(input("Введите число а, а - целое число 0 <= a < n: "))
     
-    nod = EuclidAlgorithm(n, a)
+    nod = EuclidAlgorithm(a, n)
     if nod != 1:
         print('0')
         return 0
@@ -91,7 +91,7 @@ def Symbol_Jacobi(a, n):
         a = n % c
         n = c
         
-    #print('res', g)
+    print('res', g)
     return g
 
         
@@ -231,7 +231,7 @@ def Big_Evklid(a, m):
     return a_0
 
 
-def ReshSrPerStep(a, b, m):
+def srav_1(a, b, m):
     print('Cравнение вида ax = b mod m\n')
     a = int(input('a: '))
     b = int(input('b: '))
@@ -256,10 +256,62 @@ def ReshSrPerStep(a, b, m):
                 break
 
 
+def srav_2(p, a, N):
+    r1 = Symbol_Jacobi(a, p)
+    r2 = Symbol_Jacobi(N, p)
+    if r1 != 1 and r2 != -1:
+        raise ValueError('Символ Якоби должен быть = 1')
+    
+    h = 1
+    k = 0
+    l = p - 1
+    if l % 2 == 0:
+        while l % 2 == 0:
+            l = l // 2
+            k = k + 1
+        if l % 2 != 0:
+            h = l
+    else:
+        h = l
+
+    a1 = pow(a, ((h + 1) / 2))
+    a1 = a1 % p
+    a2 = pow(a, -1)
+    a2 = a2 % p
+    N1 = pow(N, h) 
+    N1 = N1 % p
+    N2 = 1
+    j = 0
+    for i in range(0, k - 2):
+        b = (a1 * N2) % p
+        c = (a2 * (b ** 2)) % p
+        t = pow(2, (k - 2 - i))
+        d = pow(c, t) % p
+        if d == 1:
+            j = 0
+        elif d == -1:
+            j = 1
+        m = ((2 ** i) * j)
+        N2 = N2 * (N1 ** m) % p
+    result1 = (a1 * N2) % p
+    result=list()
+    result.append(a1)
+    result.append(N2)
+    print(result1)
+    print(result)
+
+
+
+
+
+
 if __name__ == "__main__":
     #test_M_R()
     #simple_gen_k(10, 100)
     #test_S_SHT()
+    Symbol_Jacobi(10, 13)
+    Symbol_Jacobi(11, 13)
+    srav_2(13, 10, 11)
     pass
 
 
