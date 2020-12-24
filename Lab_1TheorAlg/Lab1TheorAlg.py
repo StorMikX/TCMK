@@ -269,7 +269,7 @@ def srav_2(p, a, N):
             l = l // 2
             k = k + 1
         if l % 2 != 0:
-            h = l
+            h = l  
     else:
         h = l
     a1 = pow(a, ((h + 1) / 2))
@@ -309,7 +309,7 @@ if __name__ == "__main__":
     #test_S_SHT()
     Symbol_Jacobi(10, 13)
     Symbol_Jacobi(11, 13)
-    srav_2(13, 10, 11)
+    srav_2(47, 25, 23)
     pass
 
 
