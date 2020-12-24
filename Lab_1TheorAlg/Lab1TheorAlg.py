@@ -2,11 +2,7 @@ import random
 import math
 
 def EuclidAlgorithm(x, y):
-
     """Алгоритм нахождения НОД двух чисел"""
-
-    #x = int(input("Введите число x: "))
-    #y = int(input("Введите число y: "))
     a1 = 0
     a2 = 1
     b1 = 1
@@ -25,13 +21,11 @@ def EuclidAlgorithm(x, y):
             b1 = b
         a = a2
         b = b2
-        #print("НОД:", d)
-        #print("Число а: ", a)
-        #print("Число b: ", b)
     else:
         print("Ошибка: x < y")  
         return 0
     return x
+
 
 def FastExponentiation_A(a, n):
     #Алгоритм быстрого возведения в степень
@@ -44,6 +38,7 @@ def FastExponentiation_A(a, n):
     print(x)
     return x
 
+
 def FastExponentiationMod_B(a, n, m):
     #Алгоритм быстрого возведения в степень по модулю числа
     x = 1
@@ -54,6 +49,7 @@ def FastExponentiationMod_B(a, n, m):
         n >>= 1
     print(x)
     return x
+
 
 def Symbol_Jacobi(a, n):
     nod = EuclidAlgorithm(n, a)
@@ -82,8 +78,6 @@ def Symbol_Jacobi(a, n):
     return g
 
         
-
-
 def test_Ferma(a, n):
     if n < 5:
         raise ValueError('n должно быть >= 5')
@@ -272,6 +266,7 @@ def srav_2(p, a, N):
     result.append(N2)
     print("+-", result1)
     print(result)
+
 
 def sys_srav(b, m):
     M = 1
