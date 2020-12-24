@@ -1,18 +1,16 @@
 import random
 import math
 
-def EuclidAlgorithm(y, x):
+def EuclidAlgorithm(x, y):
 
     """Алгоритм нахождения НОД двух чисел"""
 
     #x = int(input("Введите число x: "))
     #y = int(input("Введите число y: "))
-
     a1 = 0
     a2 = 1
     b1 = 1
     b2 = 0
-    
     if x >= y:
         while y != 0:
             q = x // y
@@ -25,8 +23,6 @@ def EuclidAlgorithm(y, x):
             a1 = a
             b2 = b1
             b1 = b
-
-        #d = x
         a = a2
         b = b2
         #print("НОД:", d)
@@ -37,42 +33,34 @@ def EuclidAlgorithm(y, x):
         return 0
     return x
 
-#def FastExponentiation_A():
-#    #Алгоритм быстрого возведения в степень
-#    a = float(input("Введите число a: "))
-#    n = int(input("Введите степень n: "))
-#    x = 1
-#    while n:
-#        if n & 0x01:    #Пока бит n будет равен 1
-#            x = x * a
-#        a = a * a
-#        n >>= 1   #Сдвиг бита вправо(деление числа на 2)
-#    print(x)
+def FastExponentiation_A(a, n):
+    #Алгоритм быстрого возведения в степень
+    x = 1
+    while n:
+        if n & 0x01:    #Пока бит n будет равен 1
+            x = x * a
+        a = a * a
+        n >>= 1   #Сдвиг бита вправо(деление числа на 2)
+    print(x)
+    return x
 
-#def FastExponentiationMod_B():
-#    #Алгоритм быстрого возведения в степень по модулю числа
-#    a = float(input("Введите число a: "))
-#    n = int(input("Введите степень n: "))
-#    mod = int(input("Введите модуль: "))
-#    x = 1
-#    while n:
-#        if n & 0x01:
-#            x = (x * a) % mod
-#        a = (a * a) % mod
-#        n >>= 1
-#    print(x)        
+def FastExponentiationMod_B(a, n, m):
+    #Алгоритм быстрого возведения в степень по модулю числа
+    x = 1
+    while n:
+        if n & 0x01:
+            x = (x * a) % m
+        a = (a * a) % m
+        n >>= 1
+    print(x)
+    return x
 
 def Symbol_Jacobi(a, n):
-    #n = int(input("Введите число n, - нечетное целое число n >= 3: "))
-    #a = int(input("Введите число а, а - целое число 0 <= a < n: "))
-    
-    nod = EuclidAlgorithm(a, n)
+    nod = EuclidAlgorithm(n, a)
     if nod != 1:
         print('0')
         return 0
-    
     g = 1
-    
     if a < 0:
         a = -a
         if n % 4 == 3:
@@ -90,48 +78,37 @@ def Symbol_Jacobi(a, n):
         c = a
         a = n % c
         n = c
-        
-    print('res', g)
+    print('Символ Якоби:', g)
     return g
 
         
 
 
-#def test_Ferma():
-#    n = int(input("Введите нечетное число, которое больше или равно 5: \n"))
-#    if n < 5:
-#        raise ValueError('n должно быть >= 5')
-#    a = int(input("Введите случайное число 2 <= a <= (n - 2): \n" ))
-#    if a > (n-2) or a < 2:
-#        raise ValueError('a должно быть 2 <= a <= (n - 2)')
-#
-#    #a = random.randint(2, n - 2)
-#
-#    if n % 2 == 0:
-#        print("Число n должно быть нечетным!!!")
-#    else:
-#        r = pow(a, (n - 1)) % n
-#        if r == 1:
-#            print('Число вероятно простое:', n)
-#        else:
-#            print('Число составное:', n)
+def test_Ferma(a, n):
+    if n < 5:
+        raise ValueError('n должно быть >= 5')
+    if a > (n-2) or a < 2:
+        raise ValueError('a должно быть 2 <= a <= (n - 2)')
+    #a = random.randint(2, n - 2)
+    if n % 2 == 0:
+        print("Число n должно быть нечетным!!!")
+    else:
+        r = pow(a, (n - 1)) % n
+        if r == 1:
+            print('Число вероятно простое:', n)
+        else:
+            print('Число составное:', n)
     
 
-def test_S_SHT():
-    n = int(input("Введите нечетное число, которое больше или равно 5: \n"))
+def test_S_SHT(n):
     if n < 5:
         raise ValueError('n должно быть >= 5')
     a = (random.randint(2, n - 2))
-    #a = int(input('Ведите a'))
-    #r = pow(a, (n - 1) / 2) % n
     r = ((a ** ((n-1)//2)) % n)
-    
     if r != 1 and r != n - 1:
         print('Число', n, 'составное')
         return 0
-    
     s = Symbol_Jacobi(a, n)
-    #if (r % n) == (s % n):
     if r % n == s:
         print('Число', n, 'вероятно, простое')
         return 0
@@ -141,10 +118,8 @@ def test_S_SHT():
 
     
 def test_M_R(n):
-    #n = int(input('Введите нечетное число, которое больше или равно 5: \n'))
-    #if n < 5 or n % 2 == 0:
-    #    raise ValueError('Неправильное число')
-    
+    if n < 5 or n % 2 == 0:
+        raise ValueError('Неправильное число')
     l = n - 1
     r = 1
     s = 0
@@ -231,7 +206,7 @@ def Big_Evklid(a, m):
     return a_0
 
 
-def srav_1(a, b, m):
+def srav_1():
     print('Cравнение вида ax = b mod m\n')
     a = int(input('a: '))
     b = int(input('b: '))
@@ -295,22 +270,225 @@ def srav_2(p, a, N):
     result=list()
     result.append(a1)
     result.append(N2)
-    print(result1)
+    print("+-", result1)
     print(result)
 
-
-
-
+def sys_srav(b, m):
+    M = 1
+    x = 0
+    for x in range(0, len(m)):
+        M = M * m[x]
+    for j in range(1, len(m)):
+        Mj = M / m[j]
+        Nj = (1 / Mj) % m[j]
+        x += (b[j] * Nj * Mj) % M
+    return x
 
 
 if __name__ == "__main__":
-    #test_M_R()
-    #simple_gen_k(10, 100)
-    #test_S_SHT()
-    Symbol_Jacobi(10, 13)
-    Symbol_Jacobi(11, 13)
-    srav_2(47, 25, 23)
-    pass
+    pro = True
+    while pro:
+        knopka = int(input("\t\t---Выберете алгоритм---\n1)      Обобщенный(расширенный) алгоритм Евклида\n"
+        "2)    Алгоритм быстрого возведения в степень\n"
+        "3)    Алгоритм быстрого возведения в степень по модулю\n"
+        "4)    Вычисление символа Якоби\n"
+        "5)    Тест Ферма\n"
+        "6)    Тест Соловэя-Штрассена\n"
+        "7)    Тест Миллера-Рабина\n"
+        "8)    Генерация простого числа заданной размерности\n"
+        "9)    Решение сравнения первой степени\n"
+        "10)   Решение сравнения второй степени\n"
+        "11)   Решение системы сравнений\n" ))
+        if knopka >= 1 and knopka < 12:
+            if knopka == 1:
+                x = int(input("Введите число x: "))
+                y = int(input("Введите число y: "))
+                flag_Evklid = True
+                while(flag_Evklid):
+                    if x >= y:
+                        break
+                    else:
+                        x = int(input("Введите число x >= y\n "))
+                        y= int (input("Введите число y <= x\n "))
+                print(EuclidAlgorithm(x,y))
+                next = input("Продолжить работу? Y/N\n ").lower()
+                if next=="y":
+                    pass
+                else:
+                    pro = False
+            if knopka == 2:
+                a = int(input("Введите число a: "))
+                n = int(input("Введите число n: "))
+                continue_flag = True
+                while continue_flag:
+                    if n>=2:
+                        break
+                    else:
+                        n=int(input("Введите число n>=2\n "))
+                FastExponentiation_A(a, n)
+                next = input("Продолжить работу? Y/N\n ").lower()
+                if next=="y":
+                    pass
+                else:
+                    pro = False
+            if knopka == 3:
+                a = int(input("Введите число a: "))
+                n = int(input("Введите степень n: "))
+                m = int(input("Введите модуль m: "))
+                flag = True
+                while flag:
+                    if a >= 0 and n >= 0 and m >= 0:
+                        break
+                    else:
+                        a = int(input("Введите число a:"))
+                        n = int(input("Введите степень n: "))
+                        m = int(input("Введите модуль m: "))
+                FastExponentiationMod_B(a, n, m)
+                next = input("Продолжить работу? Y/N\n ").lower()
+                if next=="y":
+                    pass
+                else:
+                    pro = False
+            if knopka == 4:
+                n = int(input("Введите число n, - нечетное целое число n >= 3: "))
+                a = int(input("Введите число а, а - целое число 0 <= a < n: "))
+                flag = True
+                while(flag):
+                    if n > a and n >= 3 and a >= 0 and n % 2 != 0:
+                        break
+                    else:
+                        a = int(input("Введите число a, 0 <= a < n: "))
+                        n = int(input("Введите число n, n >= 3: "))
+                k = Symbol_Jacobi(a, n)
+                next = input("Продолжить работу? Y/N\n ").lower()
+                if next=="y":
+                    pass
+                else:
+                    pro = False
+            if knopka == 5:
+                n = int(input("Введите нечетное число n, которое больше или равно 5: \n"))
+                a = int(input("Введите случайное число a, которое 2 <= a <= n-2: \n"))
+                flag = True
+                while flag:
+                    if n >= 5 and n % 2 != 0:
+                        break
+                    else:
+                        n = int(input("Введите нечетное число n, которое больше или равно 5: \n"))
+                test_Ferma(a, n)
+                next = input("Продолжить работу? Y/N\n ").lower()
+                if next=="y":
+                    pass
+                else:
+                    pro = False
+            if knopka == 6:
+                n = int(input("Введите нечетное число, которое больше или равно 5: \n"))
+                flag = True
+                while flag:
+                    if n >= 5 and n % 2 != 0:
+                        break
+                    else:
+                        n = int(input("Введите нечетное число n, которое больше или равно 5: \n"))
+                test_S_SHT(n)
+                next = input("Продолжить работу? Y/N\n ").lower()
+                if next=="y":
+                    pass
+                else:
+                    pro = False
+            if knopka == 7:
+                n = int(input('Введите нечетное число, которое больше или равно 5: \n'))
+                flag = True
+                while flag:
+                    if n >= 5 and n % 2 != 0:
+                        break
+                    else:
+                        n = int(input("Введите нечетное число n, которое больше или равно 5: \n"))
+                test_M_R(n)
+                next = input("Продолжить работу? Y/N\n ").lower()
+                if next=="y":
+                    pass
+                else:
+                    pro = False
+            if knopka == 8:
+                k = int(input("Введите разрядность k >= 1:\n "))
+                t = int(input("Введите число итераций t >= 1:\n "))
+                flag = True
+                while flag:
+                    if k >= 1 and t >= 1:
+                        break
+                    else:
+                        k = int(input("Введите разрядность k >= 1:\n "))
+                        t = int(input("Введите число итераций t >= 1:\n "))
+                simple_gen_k(k, t)
+                next = input("Продолжить работу? Y/N\n ").lower()
+                if next=="y":
+                    pass
+                else:
+                    pro = False
+            if knopka == 9:
+                srav_1()
+                next = input("Продолжить работу? Y/N\n ").lower()
+                if next=="y":
+                    pass
+                else:
+                    pro = False
+            if knopka == 10:
+                print('Cравнение вида x*x = a mod p\n')
+                p = int(input('Введите число p != 2:'))
+                a = int(input('Введите число a >= 0:'))
+                N = int(input('Введите число N >= 0:'))
+                srav_2(p, a, N)
+                next = input("Продолжить работу? Y/N\n ").lower()
+                if next=="y":
+                    pass
+                else:
+                    pro = False
+            if knopka == 11:
+                x = int(input("Введите число строк савнений (четное): "))
+                while True:
+                    if x % 2==0:
+                        break
+                    else:
+                        x = int(input("Введите число строк савнений (четное): "))
+                b_list = list()
+                mod_list = list()
+                for x in range(1, x):
+                    b_list.append(input("Enter b",x," "))
+                    mod_list.append(input("Enter m",x," "))
+                while True:
+                    for x in range(0, len(mod_list) - 1):
+                        if EuclidAlgorithm(mod_list[x], mod_list[x + 1]) == 1:
+                            if x+1==len(mod_list):
+                                break
+                        else:
+                            break
+                    for x in range(1, x):
+                        mod_list.append(input("Enter m",x," "))
+                print("Результат = ", sys_srav(b_list, mod_list))
+                next = input("Продолжить работу? Y/N\n ").lower()
+                if next=="y":
+                    pass
+                else:
+                    pro = False
+        else:
+            print("\nСделайте правильный выбор!!!\n")        
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     
