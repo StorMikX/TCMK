@@ -1,4 +1,5 @@
 import math
+import random
 
 
 def function(a, b, c, p):
@@ -11,9 +12,9 @@ def function(a, b, c, p):
 
 def klog(c, p): 
     if c < p // 2: 
-        sr = 1
-    if c >= p // 2:
         sr = 0
+    if c >= p // 2:
+        sr = 1
     return sr
 
 
@@ -44,10 +45,9 @@ def EuclidAlgorithm(x, y):
 
 
 def srav_1(a, b, m):
-    #print('Cравнение вида ax = b mod m\n')
     d = math.gcd(a, m)
     l = m
-    x = 0
+    #x = 0
     if d > 1 and b%d != 0:
         print('Решений нет')
     else:
@@ -62,14 +62,13 @@ def srav_1(a, b, m):
                 for r in range(l):
                     if (a*r - b)%m == 0:
                         N.append(r)
-                print('Решения:', N)
-                for i in N:
-                    x = i
+                #x = min(N)
                 break
-    return x
+    return N
 
 
 def eulers_phi(p):
+    #Функция Элера для p
     r = p
     i = 2
     while i * i <= p:
@@ -81,17 +80,17 @@ def eulers_phi(p):
             i = i + 1
     if p > 1:
         r = r - r // p
-    print(r)
     return r 
 
 
 def divisors_of_a_number(r):
+    #Делители числа r
     divisors = [x for x in range (1, r // 2 + 1) if r % x == 0] + [r]          
-    print (divisors)
     return divisors
 
 
 def order_of_a(a, p, divisors):
+    #Вычисление порядка числа а
     vip_ner = list()
     for d in divisors:
         a1 = a ** d % p
@@ -99,13 +98,12 @@ def order_of_a(a, p, divisors):
             vip_ner.append(d)
         else:
             continue
-    print(vip_ner)
     order = min(vip_ner)
-    print(order)
     return order
     
 
 def discrlog(a, b, p, order):
+    #Вычисление x 
     u = 2
     v = 2
     a_1 = a ** u
@@ -128,12 +126,11 @@ def discrlog(a, b, p, order):
             kd = kd + 1
         c = function(a, b, c, p)
         d = function(a, b, d, p)
-        d = function(a, b, c, p)
         if klog(d, p) == 1:
             xd = xd + 1
         else: 
             kd = kd + 1
-        #d = function(a, b, c, p)
+        d = function(a, b, d, p)
         if c % p == d % p:
             flag = False
     xcd = xc - xd
@@ -141,28 +138,59 @@ def discrlog(a, b, p, order):
     x = srav_1(xcd, kcd, order)
     return x 
 
-            
-if __name__ == "__main__":
-    #p = 7919
-    #r = eulers_phi(p)
-    #div = divisors_of_a_number(r)
-    #order_of_a(10, p, div)
-    #discrlog(10, 64, 107, order)
+
+def FastExponentiationMod_B(a, n, m):
+    #Алгоритм быстрого возведения в степень по модулю числа
+    x = 1
+    while n:
+        if n & 0x01:
+            x = (x * a) % m
+        a = (a * a) % m
+        n >>= 1
+    return x
+
+
+def test_Ferma(n) -> int:
+    #Проверка на простату числа                             
+    if n < 5:
+        raise ValueError('n должно быть >= 5')
+    a = random.randint(2, n - 2)
+    if n % 2 == 0:
+        return 0
+    else:
+        r = pow(a, (n - 1)) % n
+        if r == 1:
+            return 1
+        else:
+            return 0
     
+
+if __name__ == "__main__":
     work = True
     while work:
-        print('Введите коэффициенты сравнени')
-        a = int(input('a: \n'))
-        b = int(input('b: \n'))
-        p = int(input('p: \n'))
+        print('Введите коэффициенты сравнения вида: a**x = b (mod p)')
+        p = int(input('p (простое число): '))
+        if test_Ferma(p) == 0:
+            work = False
+            raise ValueError('Число p должно быть простым!!!')
+        a = int(input('a: '))
+        b = int(input('b (1 <= b <= p): '))
+        if b < 1 or b > p:
+            raise ValueError('Число b должно быть в пределе [1, p]')
+
 
         r = eulers_phi(p)
         div = divisors_of_a_number(r)
         order = order_of_a(a, p, div)
         x = discrlog(a, b, p, order)
-        print(x)
-
-
-    
-
-
+        for i in x:
+            res = FastExponentiationMod_B(a, i, p)
+            if res % p == b % p:
+                print(f'{a}**{i} = {b} (mod {p})')
+                print('Решение задачи дискретного логарифмирования:', i)
+        #check(a, x, b, p)
+        again = input('Хотите повторить программу? (Y, N) \n').lower()
+        if again == 'y':
+            pass
+        else:
+            work = False
