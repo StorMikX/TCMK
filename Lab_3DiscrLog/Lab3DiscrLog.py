@@ -188,6 +188,8 @@ if __name__ == "__main__":
             if res % p == b % p:
                 print(f'{a}**{i} = {b} (mod {p})')
                 print('Решение задачи дискретного логарифмирования:', i)
+            else:
+                print('Решений нет')
         #check(a, x, b, p)
         again = input('Хотите повторить программу? (Y, N) \n').lower()
         if again == 'y':
