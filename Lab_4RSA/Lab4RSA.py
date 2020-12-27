@@ -97,20 +97,35 @@ def simple_gen_k(k, t):
 
 def rsa_encryption(m, e, n):
     c = pow(m, e, n)
-    print(c)
+    #print(c)
     return int(c)
 
 
 def rsa_decryption(c, d, n):
     m = pow(c, d, n)
-    return m
+    return int(m)
 
+
+def tohex(n):
+    alpha = '0123456789abcdef'
+    out = '' if n else '0'
+    while n > 0:
+        out = alpha[n % 16] + out
+        n >>= 4
+    return out
+
+
+def decode_unicode(n):
+    text = bytes.fromhex(n).decode('utf-8')
+    #print(text)
+    return text
 
 def oktets():
     pass
 
 
 if __name__ == "__main__":
+    
     work = True
     while work:
         print('\n\t---RSA Menu---\n'
@@ -171,7 +186,8 @@ if __name__ == "__main__":
                         'prime2': q,
                         'exponent1': exponent1,
                         'exponent2': exponent2,
-                        'coefficient': coefficient
+                        'coefficient': coefficient,
+                        'N': n
                     }
                 }
                 filename2 = str(input('Введите название файла для закрытого ключа: '))
@@ -184,65 +200,83 @@ if __name__ == "__main__":
                 else:
                     work = False
             if choice == 2:
-                pass
+                namefile1 = input('Введите название файла для шифрвоания(txt): ')
+                if namefile1.endswith('.txt'):
+                    with open(namefile1 , 'r') as textfile:
+                        m = textfile.read()
+                        print(m)
+                else:
+                    print('Неправильный формат файла!!!')
+                    break
+                publickeyfile = str(input('Введите название файла с открытым ключом(json): '))
+                if publickeyfile.endswith('.json'):
+                    with open(publickeyfile, 'r') as pkfile:
+                        pkdata = json.load(pkfile)
+                else:
+                    print('Неправильнй формат файла с открытым ключом!!!')
+                    break
+                e = pkdata['PublicKey']['SubjectPublicKeyInfo']['publicExponent']
+                n = pkdata['PublicKey']['SubjectPublicKeyInfo']['N']
+                m = m.encode('utf-8').hex()
+                m = int(m, base = 16)
+                encrypt = rsa_encryption(m, e, n)
+                encryptedtext = tohex(encrypt)
+                encmes = {
+                    'PrivateKey': 
+                    {
+                        'Version': 0,
+                        'EncryptedContentInfo':
+                        {
+                            'ContentType': 'text',
+                            'ContentEncryptionAlgorithmIdentifier': 'rsaEncryption',
+                            'encryptedContent': encryptedtext,
+                            'OPTIONAL': '-'
+
+                        }
+                    }
+                }
+                filename3 = str(input('Укажите название файла с зашифрованным сообщением: '))
+                with open(filename3, 'x', encoding = 'utf-8') as file3:
+                    json.dump(encmes, file3, indent = 4)
+                print('Сообщение зашифровано и помещено в специальный файл')
+                next = input("Продолжить работу? Y/N\n ").lower()
+                if next=="y":
+                    pass
+                else:
+                    work = False
+            if choice == 3:
+                namefile2 = input('Введите название файла для расшифрования(json): ')
+                if namefile2.endswith('.json'):
+                    with open(namefile2 , 'r') as textfile1:
+                        encryptdat = json.load(textfile1)   
+                else:
+                    print('Неправильный формат файла!!!')
+                    break
+                c = encryptdat['PrivateKey']['EncryptedContentInfo']['encryptedContent']
+                privatekeyfile = str(input('Введите название файла с закрытым ключом(json): '))
+                if privatekeyfile.endswith('.json'):
+                    with open(privatekeyfile, 'r') as pvfile:
+                        pvdata = json.load(pvfile)
+                else:
+                    print('Неправильнй формат файла с открытым ключом!!!')
+                    break
+                d = pvdata['PrivateKey']['privateExponent']
+                n = pvdata['PrivateKey']['N']
+                mes = int(c, base = 16)
+                decrypt = rsa_decryption(mes, d, n)
+                texthex = tohex(decrypt)
+                decryptxt = decode_unicode(texthex)
+                #print('Расшифрованное сообщение:', decryptxt)
+                filename4 = input('Введите название файла с расшифрованным текстом: ')
+                with open(filename4, 'w') as decr:
+                    decr.write(decryptxt)
+                print('Сообщение успешно расшифровано и записано в отдельный документ')
+                next = input("Продолжить работу? Y/N\n ").lower()
+                if next=="y":
+                    pass
+                else:
+                    work = False
             if choice == 4:
                 work = False
         else:
-            print('\nСделайте правильный выбор!!!!!\n')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    #m, a, b = extended_euclid(7919, 5)
-    #print(f'НОД({7919}, {5}) = {m}')
-    #print('Сгенерируйте параметры p и q:')
-    #print('Параметр p')
-    #p = simple_gen_k(int(input('')), int(input('')))
-    #print('Параметр q')
-    #q = simple_gen_k(int(input('')), int(input('')))
-
-    #p = simple_gen_k(512, 10)
-    #q = simple_gen_k(512, 10)
-    #n = p * q
-    #print(f'N = {n}')
-    #x = (p-1)*(q-1)
-    #print(x)
-    #gen = True
-    #while gen:
-    #    e = int(input('Введите число e: '))
-    #    m, a, b = extended_euclid(x, e)
-    #    if m != 1:
-    #        print('Выберите другое значение е')
-    #        pass
-    #    else:
-    #        print('m:', m)
-    #        gen = False
-    #d = b
-    #print(a, b, d)
-#
-    #string = 'hello world'
-    #utf = string.encode('utf-8').hex()
-    #print(int(utf, base = 16))
-#
-    #c = rsa_encryption(126207244316550804821666916, e, n)
-    #print(rsa_encryption(126207244316550804821666916, e, n))
-    #print(rsa_decryption(c, d, n))
-
-    #simple_gen_k(88, 10)
+            print('\nСделайте правильный выбор!!!!!\n')    
