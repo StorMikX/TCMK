@@ -116,9 +116,10 @@ if __name__ == "__main__":
         print('\n\t---RSA Menu---\n'
               '1) Генерация параматров ключей\n'
               '2) Шифрование\n'
-              '3) Расшифрование')
+              '3) Расшифрование\n'
+              '4) Выход из программы шифрования')
         choice = (int(input('Выберите функцию программы: ')))
-        if choice >= 1 and choice < 4:
+        if choice >= 1 and choice < 5:
             if choice == 1:
                 print('\nГенерация параметра p')
                 k1 = int(input('Укажите двоичную разрядность числа p: '))
@@ -184,6 +185,8 @@ if __name__ == "__main__":
                     work = False
             if choice == 2:
                 pass
+            if choice == 4:
+                work = False
         else:
             print('\nСделайте правильный выбор!!!!!\n')
 
