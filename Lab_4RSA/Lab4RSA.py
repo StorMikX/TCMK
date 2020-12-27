@@ -1,7 +1,7 @@
 import random
-import string
 import json
 #pylint: disable=E1101
+
 
 def extended_euclid(x, y):
     a2 = 1
@@ -94,6 +94,7 @@ def simple_gen_k(k, t):
             #print(f'p = {p}')
             return p
 
+
 def rsa_encryption(m, e, n):
     c = pow(m, e, n)
     print(c)
@@ -107,8 +108,6 @@ def rsa_decryption(c, d, n):
 
 def oktets():
     pass
-
-    
 
 
 if __name__ == "__main__":
