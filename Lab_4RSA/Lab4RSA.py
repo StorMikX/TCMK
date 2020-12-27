@@ -39,19 +39,16 @@ def test_M_R(n):
             r = l
             break
     a = random.randint(2, n-2)
-    y = (pow(a, r, n)) #% n
+    y = (pow(a, r, n)) 
     if y != 1 and y != n-1:
         j = 1
         if j <= s - 1 and y != n-1:
             y = (y * y) % n
             if y == 1:
-                #print('Число', n,'составное')
                 return 0
             j = j + 1
         if y != n - 1:
-            #print('Число', n,'составное')
             return 0
-    #print('Число', n, 'вероятно простое')
     return 1  
 
 
@@ -60,7 +57,6 @@ def bin_to_dec(data):
     len_dat = len(data)
     for i in range(0, len_dat):
         number += int(data[i]) * (2**(len_dat - i - 1))
-    #print(number)
     return number
 
 
@@ -74,7 +70,6 @@ def simple_gen_k(k, t):
             mass_p.append(b)
             j = j - 1
         mass_p.append(1)
-        #print(mass_p)
         string = ''
         for i in range(0, len(mass_p)):
             string = string + str(mass_p[i])
@@ -91,13 +86,11 @@ def simple_gen_k(k, t):
             elif x == 0:
                 break
         if i == t:
-            #print(f'p = {p}')
             return p
 
 
 def rsa_encryption(m, e, n):
     c = pow(m, e, n)
-    #print(c)
     return int(c)
 
 
@@ -117,11 +110,7 @@ def tohex(n):
 
 def decode_unicode(n):
     text = bytes.fromhex(n).decode('utf-8')
-    #print(text)
     return text
-
-def oktets():
-    pass
 
 
 if __name__ == "__main__":
@@ -204,7 +193,6 @@ if __name__ == "__main__":
                 if namefile1.endswith('.txt'):
                     with open(namefile1 , 'r') as textfile:
                         m = textfile.read()
-                        print(m)
                 else:
                     print('Неправильный формат файла!!!')
                     break
@@ -266,7 +254,6 @@ if __name__ == "__main__":
                 decrypt = rsa_decryption(mes, d, n)
                 texthex = tohex(decrypt)
                 decryptxt = decode_unicode(texthex)
-                #print('Расшифрованное сообщение:', decryptxt)
                 filename4 = input('Введите название файла с расшифрованным текстом: ')
                 with open(filename4, 'w') as decr:
                     decr.write(decryptxt)
