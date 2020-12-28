@@ -114,7 +114,6 @@ def decode_unicode(n):
 
 
 if __name__ == "__main__":
-    
     work = True
     while work:
         print('\n\t---RSA Menu---\n'
@@ -189,7 +188,7 @@ if __name__ == "__main__":
                 else:
                     work = False
             if choice == 2:
-                namefile1 = input('Введите название файла для шифрвоания(txt): ')
+                namefile1 = input('Введите название файла для шифрования(txt): ')
                 if namefile1.endswith('.txt'):
                     with open(namefile1 , 'r') as textfile:
                         m = textfile.read()
@@ -210,7 +209,7 @@ if __name__ == "__main__":
                 encrypt = rsa_encryption(m, e, n)
                 encryptedtext = tohex(encrypt)
                 encmes = {
-                    'PrivateKey': 
+                    'EncryptedMessage': 
                     {
                         'Version': 0,
                         'EncryptedContentInfo':
@@ -240,7 +239,7 @@ if __name__ == "__main__":
                 else:
                     print('Неправильный формат файла!!!')
                     break
-                c = encryptdat['PrivateKey']['EncryptedContentInfo']['encryptedContent']
+                c = encryptdat['EncryptedMessage']['EncryptedContentInfo']['encryptedContent']
                 privatekeyfile = str(input('Введите название файла с закрытым ключом(json): '))
                 if privatekeyfile.endswith('.json'):
                     with open(privatekeyfile, 'r') as pvfile:
