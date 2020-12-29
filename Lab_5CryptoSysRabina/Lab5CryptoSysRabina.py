@@ -1,4 +1,5 @@
 import random
+from labmath import sqrtmod_prime
 import json
 
 
@@ -107,6 +108,19 @@ def rabin_encryption(m, n):
     return c
 
 
+def rabin_decryption(c, p, q, n):
+    nod, yp, yq = extended_euclid(p, q)
+    print(nod)
+    mp = int(sqrtmod_prime(c, p))
+    mq = int(sqrtmod_prime(c, q))
+    
+    m1 = ((yp * p * mq) + (yq * q * mp)) % n
+    m2 = n - m1
+    m3 = ((yp * p * mq) - (yq * q * mp)) % n
+    m4 = n - m3
+    return m1, m2, m3, m4
+
+
 if __name__ == "__main__":
     work = True
     while work:
@@ -149,7 +163,8 @@ if __name__ == "__main__":
                 closekey = {
                     'PrivateKey': {
                         'p': p,
-                        'q': q
+                        'q': q,
+                        'n': n
                     }
                 }
                 with open(filename2, 'x', encoding = 'utf-8') as file2:
@@ -202,6 +217,35 @@ if __name__ == "__main__":
                 else:
                     print('Неправильный формат файла!!!')
                     break
-                c = encryptdat['PrivateKey']['encryptedContent']
+                c = encryptdat['EncryptedMessage']['encryptedContent']
+                privatekeyfile = str(input('Введите название файла с закрытым ключом(json): '))
+                if privatekeyfile.endswith('.json'):
+                    with open(privatekeyfile, 'r') as pvfile:
+                        pvdata = json.load(pvfile)
+                else:
+                    print('Неправильнй формат файла с открытым ключом!!!')
+                    break
+                p = pvdata['PrivateKey']['p']
+                q = pvdata['PrivateKey']['q']
+                n = pvdata['PrivateKey']['n']
+                mes = int(c, base = 16)
+                decrypt = rabin_decryption(mes, p, q, n)
+                for i in decrypt:
+                    try:
+                        texthex = tohex(i)
+                        decryptxt = decode_unicode(texthex)
+                    except Exception:
+                        continue
+                filename4 = input('Введите название файла с расшифрованным текстом: ')
+                with open(filename4, 'w') as decr:
+                    decr.write(decryptxt)
+                print('Сообщение успешно расшифровано и записано в отдельный документ')
+                next = input("Продолжить работу? Y/N\n ").lower()
+                if next=="y":
+                    pass
+                else:
+                    work = False
+            if choice == 4:
+                work = False            
         else:
             print('\nСделайте правильный выбор!!!!\n')
