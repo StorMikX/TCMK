@@ -51,10 +51,8 @@ def sys_srav():
         Mj = M / mod_list[j]
         Mj_1 = modinv(Mj, mod_list[j])
         Nj = Mj_1 % mod_list[j]
-        #Nj = (1 / Mj) % mod_list[j]
         x += (b_list[j] * Nj * Mj)
         x = x % M
     print(f'Решение системы сравнений: {x}')
 
-#print(EuclidAlgorithm(20, 4))
 sys_srav()
