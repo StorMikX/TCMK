@@ -404,15 +404,15 @@ if __name__ == "__main__":
                 else:
                     pro = False
             if knopka == 8:
-                k = int(input("Введите разрядность k >= 1:\n "))
-                t = int(input("Введите число итераций t >= 1:\n "))
+                k = int(input("Введите разрядность k: \n"))
+                t = int(input("Введите число итераций t: \n"))
                 flag = True
                 while flag:
                     if k >= 1 and t >= 1:
                         break
                     else:
-                        k = int(input("Введите разрядность k >= 1:\n "))
-                        t = int(input("Введите число итераций t >= 1:\n "))
+                        k = int(input("Введите разрядность k: \n"))
+                        t = int(input("Введите число итераций: \n"))
                 simple_gen_k(k, t)
                 next = input("Продолжить работу? Y/N\n ").lower()
                 if next=="y":
